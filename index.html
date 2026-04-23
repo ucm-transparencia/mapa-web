@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa Transparencia UCM</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 10px;
+}
+
+.search-box {
+  margin-bottom: 10px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.tree ul {
+  list-style: none;
+  padding-left: 18px;
+}
+
+.tree li {
+  margin: 4px 0;
+}
+
+.node {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.node::before {
+  content: "▶";
+  font-size: 10px;
+  margin-right: 5px;
+}
+
+.node.open::before {
+  content: "▼";
+}
+
+a {
+  text-decoration: none;
+  color: #0056b3;
+}
+
+.hidden {
+  display: none;
+}
+
+.highlight {
+  background: yellow;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="search-box">
+<input type="text" id="search" placeholder="Buscar en el portal...">
+</div>
+
+<div class="tree" id="tree">
+<ul>
+
+<li>
+<span class="node">Información Institucional</span>
+<ul class="hidden">
+<li><a href="https://www.ucm.es/portaldetransparencia/informacion-general-de-la-ucm" target="_blank">Información general</a></li>
+<li><a href="https://www.ucm.es/portaldetransparencia/historia-ucm" target="_blank">Historia</a></li>
+<li><a href="https://www.ucm.es/portaldetransparencia/organos-de-gobierno" target="_blank">Órganos de gobierno</a></li>
+</ul>
+</li>
+
+<li>
+<span class="node">Área académica</span>
+<ul class="hidden">
+
+<li>
+<span class="node">Oferta académica</span>
+<ul class="hidden">
+<li><a href="https://www.ucm.es/grados" target="_blank">Grados</a></li>
+<li><a href="https://www.ucm.es/masteres" target="_blank">Másteres</a></li>
+<li><a href="https://www.ucm.es/titulos-propios" target="_blank">Títulos propios</a></li>
+</ul>
+</li>
+
+<li>
+<span class="node">Indicadores académicos</span>
+<ul class="hidden">
+<li><a href="https://www.ucm.es/portaldetransparencia/area-academica#nuevo-ingreso" target="_blank">Oferta y demanda</a></li>
+<li><a href="https://www.ucm.es/portaldetransparencia/area-academica#resultados" target="_blank">Resultados académicos</a></li>
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</div>
+
+<script>
+
+// Toggle nodos
+document.querySelectorAll(".node").forEach(node => {
+  node.addEventListener("click", () => {
+    const ul = node.nextElementSibling;
+    if (ul) {
+      ul.classList.toggle("hidden");
+      node.classList.toggle("open");
+    }
+  });
+});
+
+// Buscador
+const searchInput = document.getElementById("search");
+
+searchInput.addEventListener("input", function() {
+  const filter = this.value.toLowerCase();
+  const links = document.querySelectorAll(".tree li");
+
+  links.forEach(li => {
+    li.classList.remove("highlight");
+
+    if (li.innerText.toLowerCase().includes(filter)) {
+      li.style.display = "";
+      
+      // abrir padres automáticamente
+      let parent = li.parentElement;
+      while (parent && parent !== document) {
+        if (parent.tagName === "UL") {
+          parent.classList.remove("hidden");
+          if (parent.previousElementSibling) {
+            parent.previousElementSibling.classList.add("open");
+          }
+        }
+        parent = parent.parentElement;
+      }
+
+      li.classList.add("highlight");
+
+    } else {
+      li.style.display = filter ? "none" : "";
+    }
+  });
+});
+
+
+// Autodespliegue inicial (opcional)
+window.addEventListener("load", () => {
+  document.querySelectorAll(".tree > ul > li > .node").forEach(n => {
+    n.click(); // abre primer nivel
+  });
+});
+
+</script>
+
+</body>
+</html>
