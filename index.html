@@ -1,167 +1,267 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mapa Transparencia UCM</title>
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mapa web · Portal de Transparencia UCM</title>
+<meta name="description" content="Mapa web interactivo, accesible y responsive del Portal de Transparencia de la Universidad Complutense de Madrid (UCM)." />
+<link rel="canonical" href="https://www.ucm.es/portaldetransparencia" />
+<meta property="og:title" content="Mapa web · Portal de Transparencia UCM" />
+<meta property="og:description" content="Navegación desplegable de las secciones del Portal de Transparencia de la UCM." />
+<meta property="og:type" content="website" />
 <style>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 10px;
-}
-
-.search-box {
-  margin-bottom: 10px;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 8px;
-  font-size: 14px;
-}
-
-.tree ul {
-  list-style: none;
-  padding-left: 18px;
-}
-
-.tree li {
-  margin: 4px 0;
-}
-
-.node {
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.node::before {
-  content: "▶";
-  font-size: 10px;
-  margin-right: 5px;
-}
-
-.node.open::before {
-  content: "▼";
-}
-
-a {
-  text-decoration: none;
-  color: #0056b3;
-}
-
-.hidden {
-  display: none;
-}
-
-.highlight {
-  background: yellow;
-}
+  :root{
+    --bg:#f7f7fa; --fg:#1a1a23; --muted:#5b5b6b;
+    --card:#ffffff; --border:#e5e5ec; --ring:#7a1f2b;
+    --burgundy:#7a1f2b; --burgundy-2:#5e1822;
+    --c1:#2f6fd8; --c2:#1f9aa8; --c3:#3aa564; --c4:#d39b1a;
+    --c5:#d56a2a; --c6:#c8362a; --c7:#7a3fbf; --c8:#c43a86;
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1115; --fg:#f1f1f5; --muted:#a4a4b3; --card:#171a21; --border:#262a33; }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,sans-serif;line-height:1.5}
+  a{color:inherit}
+  .skip{position:absolute;left:-9999px;top:auto}
+  .skip:focus{left:1rem;top:1rem;background:var(--burgundy);color:#fff;padding:.6rem 1rem;border-radius:8px;z-index:100}
+  header.site{background:linear-gradient(135deg,var(--burgundy),var(--burgundy-2));color:#fff;padding:2.2rem 1.25rem}
+  .wrap{max-width:1180px;margin:0 auto}
+  header.site h1{margin:0 0 .35rem;font-size:clamp(1.5rem,3.2vw,2.2rem);letter-spacing:-.01em}
+  header.site p{margin:0;opacity:.92;max-width:65ch}
+  .toolbar{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.1rem}
+  .btn{appearance:none;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.1);color:#fff;padding:.55rem .9rem;border-radius:10px;font:inherit;cursor:pointer}
+  .btn:hover{background:rgba(255,255,255,.2)}
+  .btn.primary{background:#fff;color:var(--burgundy);border-color:#fff;font-weight:600}
+  main{padding:1.5rem 1.25rem 4rem}
+  .search{display:flex;gap:.6rem;margin:0 0 1.25rem}
+  .search input{flex:1;padding:.75rem 1rem;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--fg);font:inherit}
+  .search input:focus{outline:2px solid var(--ring);outline-offset:2px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+  .section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+  .section header{display:flex;align-items:center;gap:.75rem;padding:1rem 1.1rem;border-left:6px solid var(--accent,var(--burgundy))}
+  .section h2{margin:0;font-size:1.05rem}
+  .section p.desc{margin:.15rem 0 0;color:var(--muted);font-size:.88rem}
+  details{border-top:1px solid var(--border)}
+  details > summary{list-style:none;cursor:pointer;padding:.75rem 1.1rem;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+  details > summary::-webkit-details-marker{display:none}
+  details > summary::after{content:"";width:.6rem;height:.6rem;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s}
+  details[open] > summary::after{transform:rotate(-135deg)}
+  details > summary:focus-visible{outline:2px solid var(--ring);outline-offset:-2px}
+  ul.links{list-style:none;margin:0;padding:0 .5rem .75rem}
+  ul.links li > a{display:flex;justify-content:space-between;gap:.75rem;padding:.55rem .65rem;border-radius:8px;text-decoration:none;color:var(--fg);font-size:.93rem}
+  ul.links li > a:hover{background:color-mix(in oklab,var(--accent,var(--burgundy)) 12%,transparent)}
+  ul.links li > a:focus-visible{outline:2px solid var(--ring);outline-offset:2px}
+  ul.links li > a::after{content:"↗";opacity:.5;font-size:.85rem}
+  footer{padding:2rem 1.25rem;color:var(--muted);text-align:center;font-size:.9rem}
+  .hidden{display:none !important}
+  .count{font-size:.78rem;color:var(--muted);margin-left:auto}
 </style>
-
 </head>
-
 <body>
-
-<div class="search-box">
-<input type="text" id="search" placeholder="Buscar en el portal...">
-</div>
-
-<div class="tree" id="tree">
-<ul>
-
-<li>
-<span class="node">Información Institucional</span>
-<ul class="hidden">
-<li><a href="https://www.ucm.es/portaldetransparencia/informacion-general-de-la-ucm" target="_blank">Información general</a></li>
-<li><a href="https://www.ucm.es/portaldetransparencia/historia-ucm" target="_blank">Historia</a></li>
-<li><a href="https://www.ucm.es/portaldetransparencia/organos-de-gobierno" target="_blank">Órganos de gobierno</a></li>
-</ul>
-</li>
-
-<li>
-<span class="node">Área académica</span>
-<ul class="hidden">
-
-<li>
-<span class="node">Oferta académica</span>
-<ul class="hidden">
-<li><a href="https://www.ucm.es/grados" target="_blank">Grados</a></li>
-<li><a href="https://www.ucm.es/masteres" target="_blank">Másteres</a></li>
-<li><a href="https://www.ucm.es/titulos-propios" target="_blank">Títulos propios</a></li>
-</ul>
-</li>
-
-<li>
-<span class="node">Indicadores académicos</span>
-<ul class="hidden">
-<li><a href="https://www.ucm.es/portaldetransparencia/area-academica#nuevo-ingreso" target="_blank">Oferta y demanda</a></li>
-<li><a href="https://www.ucm.es/portaldetransparencia/area-academica#resultados" target="_blank">Resultados académicos</a></li>
-</ul>
-</li>
-
-</ul>
-</li>
-
-</ul>
-</div>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="site">
+  <div class="wrap">
+    <p style="margin:0 0 .25rem;opacity:.85;font-size:.9rem">Universidad Complutense de Madrid</p>
+    <h1>Mapa web · Portal de Transparencia</h1>
+    <p>Navegación desplegable de las secciones del portal. Pulsa cada categoría para desplegar sus enlaces oficiales.</p>
+    <div class="toolbar" role="group" aria-label="Acciones">
+      <a class="btn primary" href="https://www.ucm.es/portaldetransparencia" target="_blank" rel="noopener">Ir al portal oficial ↗</a>
+      <button class="btn" type="button" id="expandAll">Expandir todo</button>
+      <button class="btn" type="button" id="collapseAll">Contraer todo</button>
+    </div>
+  </div>
+</header>
+<main id="contenido" class="wrap">
+  <form class="search" role="search" onsubmit="event.preventDefault()">
+    <label for="q" class="sr-only" style="position:absolute;left:-9999px">Buscar en el mapa</label>
+    <input id="q" type="search" placeholder="Buscar sección o enlace…" autocomplete="off" />
+  </form>
+  <div class="grid" id="grid"></div>
+</main>
+<footer>
+  Mapa web no oficial basado en la estructura pública del
+  <a href="https://www.ucm.es/portaldetransparencia" target="_blank" rel="noopener">Portal de Transparencia de la UCM</a>.
+</footer>
 
 <script>
+const BASE = "https://www.ucm.es";
+const SECTIONS = [
+  { color:"--c1", title:"Información institucional", desc:"Normativa, estructura y órganos de gobierno.",
+    groups:[
+      { name:"Normativa y estatutos", links:[
+        ["Estatutos de la UCM","/estatutos"],
+        ["Normativa propia","/normativa"],
+        ["Boletín Oficial de la UCM (BOUC)","/bouc"]
+      ]},
+      { name:"Órganos de gobierno", links:[
+        ["Rector","/rector"],
+        ["Consejo de Dirección","/consejo-de-direccion"],
+        ["Consejo de Gobierno","/consejo-de-gobierno"],
+        ["Claustro Universitario","/claustro"],
+        ["Consejo Social","/consejo-social"]
+      ]},
+      { name:"Estructura", links:[
+        ["Facultades y centros","/centros"],
+        ["Departamentos","/departamentos"],
+        ["Institutos universitarios","/institutos"]
+      ]}
+    ]},
+  { color:"--c2", title:"Planificación y evaluación", desc:"Planes estratégicos, memorias y calidad.",
+    groups:[
+      { name:"Planificación", links:[
+        ["Plan estratégico","/plan-estrategico"],
+        ["Programación plurianual","/programacion-plurianual"]
+      ]},
+      { name:"Memorias y calidad", links:[
+        ["Memoria anual","/memoria-anual"],
+        ["Calidad UCM","/calidad"],
+        ["Inspección de servicios","/inspeccion-servicios"]
+      ]}
+    ]},
+  { color:"--c3", title:"Información económica y presupuestaria", desc:"Presupuestos, cuentas y auditorías.",
+    groups:[
+      { name:"Presupuestos", links:[
+        ["Presupuesto vigente","/presupuesto"],
+        ["Liquidación de presupuestos","/liquidacion-presupuestos"]
+      ]},
+      { name:"Cuentas y auditoría", links:[
+        ["Cuentas anuales","/cuentas-anuales"],
+        ["Informes de auditoría","/auditorias"]
+      ]},
+      { name:"Patrimonio", links:[
+        ["Inventario de bienes","/patrimonio"]
+      ]}
+    ]},
+  { color:"--c4", title:"Contratación y convenios", desc:"Perfil del contratante, convenios y subvenciones.",
+    groups:[
+      { name:"Contratación", links:[
+        ["Perfil del contratante","/perfildelcontratante"],
+        ["Contratos menores","/contratos-menores"],
+        ["Estadísticas de contratación","/estadisticas-contratacion"]
+      ]},
+      { name:"Convenios y encomiendas", links:[
+        ["Registro de convenios","/convenios"],
+        ["Encomiendas de gestión","/encomiendas"]
+      ]},
+      { name:"Subvenciones y ayudas", links:[
+        ["Subvenciones concedidas","/subvenciones"]
+      ]}
+    ]},
+  { color:"--c5", title:"Personal", desc:"PDI, PTGAS, retribuciones y RPT.",
+    groups:[
+      { name:"Plantillas", links:[
+        ["Personal Docente e Investigador (PDI)","/pdi"],
+        ["Personal Técnico, de Gestión y de Administración y Servicios (PTGAS)","/ptgas"],
+        ["Relación de Puestos de Trabajo (RPT)","/rpt"]
+      ]},
+      { name:"Retribuciones", links:[
+        ["Retribuciones de altos cargos","/retribuciones-altos-cargos"],
+        ["Tablas retributivas","/tablas-retributivas"]
+      ]},
+      { name:"Selección y provisión", links:[
+        ["Convocatorias de empleo","/empleo"],
+        ["Concursos y oposiciones","/oposiciones"]
+      ]}
+    ]},
+  { color:"--c6", title:"Estudios y estudiantes", desc:"Oferta académica, matrícula y datos.",
+    groups:[
+      { name:"Oferta académica", links:[
+        ["Grados","/estudios/grados"],
+        ["Másteres","/estudios/masteres"],
+        ["Doctorado","/doctorado"]
+      ]},
+      { name:"Datos académicos", links:[
+        ["UCM en cifras","/ucm-en-cifras"],
+        ["Estadísticas de matrícula","/estadisticas-matricula"],
+        ["Resultados académicos","/resultados-academicos"]
+      ]}
+    ]},
+  { color:"--c7", title:"Investigación", desc:"Producción científica, proyectos y transferencia.",
+    groups:[
+      { name:"Actividad investigadora", links:[
+        ["Vicerrectorado de Investigación","/vinv"],
+        ["Proyectos de investigación","/proyectos-investigacion"],
+        ["Grupos de investigación","/grupos-investigacion"]
+      ]},
+      { name:"Transferencia", links:[
+        ["OTRI","/otri"],
+        ["Patentes y resultados","/patentes"]
+      ]}
+    ]},
+  { color:"--c8", title:"Atención a la ciudadanía", desc:"Acceso a la información, quejas y protección de datos.",
+    groups:[
+      { name:"Derecho de acceso", links:[
+        ["Solicitud de acceso a la información pública","/acceso-informacion-publica"],
+        ["Resoluciones de acceso","/resoluciones-acceso"]
+      ]},
+      { name:"Quejas y sugerencias", links:[
+        ["Buzón de quejas y sugerencias","/quejas-sugerencias"],
+        ["Defensor universitario","/defensor"]
+      ]},
+      { name:"Protección de datos", links:[
+        ["Política de privacidad","/politica-privacidad"],
+        ["Delegado de Protección de Datos","/dpd"]
+      ]}
+    ]}
+];
 
-// Toggle nodos
-document.querySelectorAll(".node").forEach(node => {
-  node.addEventListener("click", () => {
-    const ul = node.nextElementSibling;
-    if (ul) {
-      ul.classList.toggle("hidden");
-      node.classList.toggle("open");
-    }
-  });
+const grid = document.getElementById("grid");
+const frag = document.createDocumentFragment();
+SECTIONS.forEach((s, i) => {
+  const sec = document.createElement("section");
+  sec.className = "section";
+  sec.style.setProperty("--accent", `var(${s.color})`);
+  sec.innerHTML = `
+    <header>
+      <div>
+        <h2>${s.title}</h2>
+        <p class="desc">${s.desc}</p>
+      </div>
+    </header>
+    ${s.groups.map((g, gi) => `
+      <details ${gi===0?'open':''}>
+        <summary>${g.name}<span class="count">${g.links.length}</span></summary>
+        <ul class="links">
+          ${g.links.map(([t,h]) => `<li><a href="${h.startsWith('http')?h:BASE+h}" target="_blank" rel="noopener">${t}</a></li>`).join("")}
+        </ul>
+      </details>
+    `).join("")}
+  `;
+  frag.appendChild(sec);
+});
+grid.appendChild(frag);
+
+document.getElementById("expandAll").addEventListener("click", () => {
+  document.querySelectorAll("details").forEach(d => d.open = true);
+});
+document.getElementById("collapseAll").addEventListener("click", () => {
+  document.querySelectorAll("details").forEach(d => d.open = false);
 });
 
-// Buscador
-const searchInput = document.getElementById("search");
-
-searchInput.addEventListener("input", function() {
-  const filter = this.value.toLowerCase();
-  const links = document.querySelectorAll(".tree li");
-
-  links.forEach(li => {
-    li.classList.remove("highlight");
-
-    if (li.innerText.toLowerCase().includes(filter)) {
-      li.style.display = "";
-      
-      // abrir padres automáticamente
-      let parent = li.parentElement;
-      while (parent && parent !== document) {
-        if (parent.tagName === "UL") {
-          parent.classList.remove("hidden");
-          if (parent.previousElementSibling) {
-            parent.previousElementSibling.classList.add("open");
-          }
-        }
-        parent = parent.parentElement;
-      }
-
-      li.classList.add("highlight");
-
-    } else {
-      li.style.display = filter ? "none" : "";
-    }
+const q = document.getElementById("q");
+q.addEventListener("input", () => {
+  const term = q.value.trim().toLowerCase();
+  document.querySelectorAll(".section").forEach(sec => {
+    let secMatch = false;
+    sec.querySelectorAll("details").forEach(d => {
+      let any = false;
+      d.querySelectorAll("ul.links li").forEach(li => {
+        const m = li.textContent.toLowerCase().includes(term);
+        li.classList.toggle("hidden", term && !m);
+        if (m) any = true;
+      });
+      const sumMatch = d.querySelector("summary").textContent.toLowerCase().includes(term);
+      const show = !term || any || sumMatch;
+      d.classList.toggle("hidden", !show);
+      if (term && (any || sumMatch)) d.open = true;
+      if (show) secMatch = true;
+    });
+    const titleMatch = sec.querySelector("h2").textContent.toLowerCase().includes(term);
+    sec.classList.toggle("hidden", term && !secMatch && !titleMatch);
   });
 });
-
-
-// Autodespliegue inicial (opcional)
-window.addEventListener("load", () => {
-  document.querySelectorAll(".tree > ul > li > .node").forEach(n => {
-    n.click(); // abre primer nivel
-  });
-});
-
 </script>
-
 </body>
 </html>
