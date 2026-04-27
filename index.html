@@ -39,32 +39,77 @@ a{color:inherit}
 .skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 .skip:focus{position:fixed;left:1rem;top:1rem;width:auto;height:auto;background:var(--burgundy);color:#fff;padding:.5rem 1rem;border-radius:8px;z-index:100}
 .wrap{max-width:1100px;margin:0 auto;padding:0 1rem}
-header.hero{background:var(--burgundy);color:var(--burgundy-fg);border-bottom:1px solid var(--border)}
-.hero-inner{padding:1rem 0 1.1rem}
-.eyebrow{display:flex;align-items:center;gap:.4rem;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;opacity:.85}
-h1{font-size:clamp(1.1rem,2.4vw,1.6rem);font-weight:700;margin:.3rem 0 0;line-height:1.15}
-h1 small{display:inline;font-weight:300;font-style:italic;opacity:.9;font-size:.8em;margin-left:.5rem}
-.lede{max-width:46rem;margin:.4rem 0 0;font-size:.85rem;opacity:.92}
-.cta{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.7rem}
-.btn{padding:.4rem .85rem;font-size:.8rem}
-.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;border-radius:999px;font-size:.88rem;font-weight:500;text-decoration:none;transition:transform .15s ease, background .15s}
+
+/* ── HERO — estilo Investigación ───────────────────────── */
+header.hero{
+  background: linear-gradient(135deg, #b71234 0%, #c9223f 100%);
+  color: var(--burgundy-fg);
+  border-radius: 12px 12px 0 0;
+  position: relative;
+  overflow: hidden;
+}
+header.hero::before{
+  content:'';
+  position:absolute; inset:0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.hero-inner{
+  position: relative;
+  padding: 18px 32px;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+.hero-icon{
+  width: 52px; height: 52px;
+  background: rgba(255,255,255,.15);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.25);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.hero-text h1{
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 4px;
+}
+.hero-text p{
+  font-size: .85rem;
+  color: rgba(255,255,255,.88);
+  max-width: 480px;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+.cta{display:flex;flex-wrap:wrap;gap:.5rem;}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem .9rem;border-radius:999px;font-size:.78rem;font-weight:500;text-decoration:none;transition:transform .15s ease, background .15s}
 .btn-primary{background:#fff;color:var(--burgundy)}
 .btn-primary:hover{transform:scale(1.02)}
 .btn-ghost{border:1px solid rgba(255,255,255,.4);color:#fff}
 .btn-ghost:hover{background:rgba(255,255,255,.12)}
-.toolbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
-.toolbar-inner{display:flex;flex-direction:column;gap:.6rem;padding:.7rem 0}
+
+/* ── OUTER WRAP ─────────────────────────────────────────── */
+.page-wrap{
+  max-width:1100px;
+  margin: 28px auto 60px;
+  padding: 0 1rem;
+}
+
+.toolbar{background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:10px;margin-bottom:1rem;}
+.toolbar-inner{display:flex;flex-direction:column;gap:.6rem;padding:.7rem 1rem}
 .search{position:relative;flex:1}
-.search input{width:100%;padding:.65rem 1rem .65rem 2.4rem;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--fg);font-size:.9rem;outline:none;box-shadow:var(--shadow-sm)}
+.search input{width:100%;padding:.6rem 1rem .6rem 2.4rem;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--fg);font-size:.88rem;outline:none;box-shadow:var(--shadow-sm)}
 .search input:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--burgundy) 30%,transparent)}
 .search svg{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted)}
-.toggle{align-self:flex-start;padding:.55rem 1.1rem;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--fg);font-size:.88rem;font-weight:500;cursor:pointer}
+.toggle{align-self:flex-start;padding:.5rem 1.1rem;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--fg);font-size:.85rem;font-weight:500;cursor:pointer}
 .toggle:hover{background:var(--accent)}
 @media(min-width:640px){
   .toolbar-inner{flex-direction:row;align-items:center;justify-content:space-between}
   .toggle{align-self:auto}
 }
-main{padding:2rem 0 3rem}
+
 .grid{list-style:none;padding:0;margin:0;display:grid;gap:1rem}
 @media(min-width:900px){.grid{grid-template-columns:1fr 1fr;gap:1.25rem}}
 .card{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent-color,var(--c1));border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow .2s}
@@ -93,7 +138,7 @@ main{padding:2rem 0 3rem}
 .label .note{font-size:.75rem;color:var(--muted);margin-top:.1rem}
 .ext{width:14px;height:14px;color:var(--muted);flex-shrink:0}
 .empty{border:1px dashed var(--border);background:var(--card);padding:2rem;border-radius:12px;text-align:center;color:var(--muted);font-size:.9rem}
-footer{border-top:1px solid var(--border);background:var(--card);margin-top:1rem}
+footer{border-top:1px solid var(--border);background:var(--card);margin-top:1rem;border-radius:10px}
 footer .wrap{padding:1.5rem 1rem;text-align:center;font-size:.82rem;color:var(--muted)}
 footer a{color:var(--fg);font-weight:500;text-decoration:none;border-bottom:1px solid transparent}
 footer a:hover{border-bottom-color:currentColor}
@@ -102,45 +147,56 @@ footer a:hover{border-bottom-color:currentColor}
 <body>
 <a class="skip" href="#main">Saltar al contenido</a>
 
-<header class="hero">
-  <div class="wrap hero-inner">
-    <div class="eyebrow">
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
-      <span>Mapa de navegación</span>
+<!-- HERO redondeado estilo Investigación -->
+<div style="max-width:1100px;margin:28px auto 0;padding:0 1rem;">
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-icon">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
+          <line x1="9" y1="3" x2="9" y2="18"/>
+          <line x1="15" y1="6" x2="15" y2="21"/>
+        </svg>
+      </div>
+      <div class="hero-text">
+        <h1>Portal de Transparencia <span style="font-weight:300;font-style:italic;opacity:.9">· UCM</span></h1>
+        <p>Información pública, accesible y verificable sobre la vida académica, económica e institucional de la UCM, organizada en 8 grandes áreas.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="https://www.ucm.es/portaldetransparencia" target="_blank" rel="noopener noreferrer">
+            Ir al Portal oficial
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="https://www.ucm.es/portaldetransparencia/solicitud-acceso-informacion-publica" target="_blank" rel="noopener noreferrer">Solicitar información</a>
+        </div>
+      </div>
     </div>
-    <h1>Portal de Transparencia<small>Universidad Complutense de Madrid</small></h1>
-    <p class="lede">Información pública, accesible y verificable sobre la vida académica, económica e institucional de la UCM, organizada en 8 grandes áreas.</p>
-    <div class="cta">
-      <a class="btn btn-primary" href="https://www.ucm.es/portaldetransparencia" target="_blank" rel="noopener noreferrer">Ir al Portal oficial
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      </a>
-      <a class="btn btn-ghost" href="https://www.ucm.es/portaldetransparencia/solicitud-acceso-informacion-publica" target="_blank" rel="noopener noreferrer">Solicitar información</a>
-    </div>
-  </div>
-</header>
-
-<div class="toolbar">
-  <div class="wrap toolbar-inner">
-    <label class="search">
-      <span class="sr-only" style="position:absolute;left:-9999px">Buscar en el mapa</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input id="q" type="search" placeholder="Buscar sección o enlace…" autocomplete="off" />
-    </label>
-    <button id="toggleAll" class="toggle" type="button" aria-pressed="true">Contraer todo</button>
-  </div>
+  </header>
 </div>
 
-<main id="main" class="wrap">
-  <ul id="sections" class="grid"></ul>
-  <p id="empty" class="empty" hidden>No se encontraron resultados.</p>
-</main>
-
-<footer>
-  <div class="wrap">
-    Mapa web de navegación · Enlaces dirigidos al
-    <a href="https://www.ucm.es/portaldetransparencia" target="_blank" rel="noopener noreferrer">Portal de Transparencia de la UCM</a>.
+<div class="page-wrap">
+  <div class="toolbar">
+    <div class="wrap toolbar-inner" style="max-width:none;padding:0">
+      <label class="search">
+        <span style="position:absolute;left:-9999px">Buscar en el mapa</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="q" type="search" placeholder="Buscar sección o enlace…" autocomplete="off" />
+      </label>
+      <button id="toggleAll" class="toggle" type="button" aria-pressed="true">Contraer todo</button>
+    </div>
   </div>
-</footer>
+
+  <main id="main">
+    <ul id="sections" class="grid"></ul>
+    <p id="empty" class="empty" hidden>No se encontraron resultados.</p>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      Mapa web de navegación · Enlaces dirigidos al
+      <a href="https://www.ucm.es/portaldetransparencia" target="_blank" rel="noopener noreferrer">Portal de Transparencia de la UCM</a>.
+    </div>
+  </footer>
+</div>
 
 <script>
 const ICONS = {
@@ -238,7 +294,7 @@ function render(){
         <span class="meta"><span class="num">${s.num}</span><span class="title">${escapeHtml(s.title)}</span><span class="desc">${escapeHtml(s.desc)}</span></span>
         ${CHEV_SVG}
       </button></h2>
-      <div id="p-${s.id}" class="panel" role="region" aria-labelledby="" ${isOpen?'':'hidden'}><ul>${linksHtml}</ul></div>
+      <div id="p-${s.id}" class="panel" role="region" ${isOpen?'':'hidden'}><ul>${linksHtml}</ul></div>
     </li>`;
   }).join('');
 
